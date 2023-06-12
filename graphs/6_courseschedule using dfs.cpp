@@ -38,3 +38,44 @@ public:
         return true;
     }
 };
+
+
+/*
+detect cycle using dfs
+
+bool checkcyle(int node , int parent, int vis[], vector<int>adj[] )
+{
+    vis[node]=1;
+
+    for(auto it: adj[node])
+    {
+        if(!vis[it])
+        {
+            if(checkcycle(it, node, vis, adj))
+            return true;
+
+            else if(it!=parent)
+            return true;
+        }
+    }
+}
+
+bool iscycle( int V, vector<int>adj[])
+{
+    int vis[V]={0};
+    for(int i=0;i<V;i++)
+    {
+        if(!vis[i])
+        {
+            if(checkcycle(i,-1,  vis, adj))  //-1 is for parent
+            return true;
+        }
+    
+    }
+
+    return false;
+
+}
+
+
+*/ 

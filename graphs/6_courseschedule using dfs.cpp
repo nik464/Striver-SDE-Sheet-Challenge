@@ -41,7 +41,7 @@ public:
 
 
 /*
-detect cycle using dfs
+detect cycle using dfs in undirected
 
 bool checkcyle(int node , int parent, int vis[], vector<int>adj[] )
 {
@@ -68,6 +68,52 @@ bool iscycle( int V, vector<int>adj[])
         if(!vis[i])
         {
             if(checkcycle(i,-1,  vis, adj))  //-1 is for parent
+            return true;
+        }
+    
+    }
+
+    return false;
+
+}
+
+
+*/ 
+
+
+/*
+detect cycle using dfs in directed
+
+bool checkcyle(int node , int dvis[], int vis[], vector<int>adj[] )
+{
+    vis[node]=1;
+    dvis[node]=1;
+
+    for(auto it: adj[node])
+    {
+        if(!vis[it])
+        {
+            if(checkcycle(it, dvis, vis, adj))
+            return true;
+
+            else if(dvis[it])
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool iscycle( int V, vector<int>adj[])
+{
+    int vis[V]={0};
+    int dvis[V]={0};
+
+    for(int i=0;i<V;i++)
+    {
+        if(!vis[i])
+        {
+            if(checkcycle(i, dvis,  vis, adj))  //-1 is for parent
             return true;
         }
     

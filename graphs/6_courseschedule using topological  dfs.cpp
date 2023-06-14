@@ -1,43 +1,68 @@
 #include<bits/stdc++.h>
 using namespace std;
-class Solution {
-public:
 
 
 //detect cycle using dfs
-    bool dfs(int v , vector<vector<int>> &adj , vector<int> &visited){
-        visited[v] = 1;
-        for(int u : adj[v]){
-           if(!visited[u]){
-              visited[u] = 1; 
-              if(dfs(u , adj , visited)) return true;
-           //If the node is 1, it means we have a cycle.
-           }else if(visited[u] == 1){
-               return true;
-           }
-        }
-        //All neighbors visited.
-        visited[v] = 2;
-        return false;
-    } 
-    
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> adj(numCourses);
-        // Three sets, not visited = 0 , partial visited = 1 , all visited = 2.
-        vector<int> visited(numCourses, 0);
-        
-        //Build a graph 
-        for(int i = 0 ; i < prerequisites.size() ; i++){
-            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
-        }
-        
-        // Check if there is a cycle , run a dfs for every node that is not visited.
-        for(int i = 0 ; i < numCourses ; i++){
-            if(!visited[i] && dfs(i , adj , visited)) return false;
-        }
-        return true;
+class Solution
+{
+  public:
+    vector<int> findOrder(int n, int m, vector<vector<int>> prerequisites) 
+    {
+        //code here
+        int N=n;
+         vector<int>adj[N];
+	     int indegree[N]={0};
+	     
+	     queue<int>q;
+	     
+	     vector<int>ans;
+	     
+	     for(auto i: prerequisites)
+	     {
+	         adj[i[1]].push_back(i[0]);
+	         
+	     }
+	     
+	     for(int i=0;i<N;i++)
+	     {
+	         for(auto it: adj[i])
+	         indegree[it]++;
+	     }
+	     
+	     
+	     for(int i=0;i<N;i++)
+	     {
+	         if(indegree[i]==0)
+	         q.push(i);
+	     }
+	     
+	     
+	     while(!q.empty())
+	     {
+	         int t = q.front();
+	         q.pop();
+	         
+	         ans.push_back(t);
+	         
+	         
+	         for(auto it: adj[t])
+	         {
+	             indegree[it]--;
+	             if(indegree[it]==0)
+	             q.push(it);
+	         }
+	     }
+	     
+	     if(ans.size()==N)
+	     return ans;
+	     
+	     return {};
     }
 };
+
+
+
+
 
 
 /*

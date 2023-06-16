@@ -19,7 +19,7 @@ bool dfs(int node,vector<int>adj[],vector<int>&vis,vector<int>&pathvis,vector<in
                  }
              }
              ans.push_back(node);
-             pathvis[node]=0;
+            pathvis[node]=0;
              return false;
 }
     vector<int> findOrder(int numCourses, vector<vector<int>>& pre) {
@@ -64,9 +64,11 @@ bool checkcyle(int node , int parent, int vis[], vector<int>adj[] )
             if(checkcycle(it, node, vis, adj))
             return true;
 
+        }
+
             else if(it!=parent)
             return true;
-        }
+        
     }
 }
 

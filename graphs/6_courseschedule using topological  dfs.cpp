@@ -3,60 +3,45 @@ using namespace std;
 
 
 //detect cycle using dfs
-class Solution
-{
-  public:
-    vector<int> findOrder(int n, int m, vector<vector<int>> prerequisites) 
-    {
-        //code here
-        int N=n;
-         vector<int>adj[N];
-	     int indegree[N]={0};
-	     
-	     queue<int>q;
-	     
-	     vector<int>ans;
-	     
-	     for(auto i: prerequisites)
-	     {
-	         adj[i[1]].push_back(i[0]);
-	         
-	     }
-	     
-	     for(int i=0;i<N;i++)
-	     {
-	         for(auto it: adj[i])
-	         indegree[it]++;
-	     }
-	     
-	     
-	     for(int i=0;i<N;i++)
-	     {
-	         if(indegree[i]==0)
-	         q.push(i);
-	     }
-	     
-	     
-	     while(!q.empty())
-	     {
-	         int t = q.front();
-	         q.pop();
-	         
-	         ans.push_back(t);
-	         
-	         
-	         for(auto it: adj[t])
-	         {
-	             indegree[it]--;
-	             if(indegree[it]==0)
-	             q.push(it);
-	         }
-	     }
-	     
-	     if(ans.size()==N)
-	     return ans;
-	     
-	     return {};
+class Solution {
+public:
+bool dfs(int node,vector<int>adj[],vector<int>&vis,vector<int>&pathvis,vector<int>&ans){
+             vis[node]=1;
+             pathvis[node]=1;
+             for(int it:adj[node]){
+                 if(!vis[it]){
+                    if(dfs(it,adj,vis,pathvis,ans)){
+                         return true;
+                     }
+                 }
+                 else if(pathvis[it]==1){
+                     return true;
+                 }
+             }
+             ans.push_back(node);
+             pathvis[node]=0;
+             return false;
+}
+    vector<int> findOrder(int numCourses, vector<vector<int>>& pre) {
+         vector<int>adj[numCourses];
+        for(int i=0;i<pre.size();i++){
+            int x=pre[i][1];
+            int y=pre[i][0];
+            adj[y].push_back(x);
+        }
+        vector<int>vis(numCourses);
+        vector<int>pathvis(numCourses);
+        vector<int>ans;
+        for(int i=0;i<numCourses;i++){
+      if(!vis[i]){
+          if(dfs(i,adj,vis,pathvis,ans)){   
+              return {};
+            
+          }    
+            }
+        }
+        if(ans.size()==numCourses) return ans;
+        else return {};
     }
 };
 
